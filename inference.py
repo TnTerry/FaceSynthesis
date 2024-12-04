@@ -1,6 +1,8 @@
 from PIL import Image
 import os
 import requests
+from pathlib import Path
+
 import numpy as np
 import matplotlib.pyplot as plt
 plt.show()
@@ -10,9 +12,10 @@ from diffusers import StableDiffusionInstructPix2PixPipeline, StableDiffusionPip
 from transformers import SamModel, SamProcessor
 from diffusers import StableDiffusionInpaintPipeline
 
-current_me_path = "images/current_me.jpg"
-future_me_path = "images/future_me.jpg"
-scene_path = "images/scene.jpg"
+
+current_me_path = Path("/root/FaceSynthesis/images/current_me.jpg")
+future_me_path = Path("/root/FaceSynthesis/images/future_me.jpg")
+scene_path = Path("/root/FaceSynthesis/images/scene.jpg")
 
 # Generate future me image using InstructPix2Pix
 def generate_future_me(current_me_path, future_me_path):
@@ -48,7 +51,7 @@ def show_masks_on_image(raw_image, masks, scores):
       axes[i].title.set_text(f"Mask {i+1}, Score: {score.item():.3f}")
       axes[i].axis("off")
     plt.show()
-    plt.savefig("images/masks.jpg")
+    plt.savefig("/root/FaceSynthesis/images/masks.jpg")
 
 # Replace faces in the scene with me images
 def replace_faces_in_scene(scene_path, current_me_path, future_me_path):
@@ -87,7 +90,7 @@ def replace_faces_in_scene(scene_path, current_me_path, future_me_path):
 
 # 主函数
 def main():
-    if not os.path.exists(current_me_path):
+    if not os.path.exists(future_me_path):
         generate_future_me(current_me_path, future_me_path)
         print("Future me image generated.")
     else:
