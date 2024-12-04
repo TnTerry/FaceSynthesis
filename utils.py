@@ -11,7 +11,12 @@ def show_mask(mask, ax, random_color=False):
     mask_image = mask.reshape(h, w, 1) * color.reshape(1, 1, -1)
     ax.imshow(mask_image)
 
-def show_masks_on_image(raw_image, masks, scores):
+def show_masks_on_image(
+  raw_image, 
+  masks, 
+  scores, 
+  path = "/root/FaceSynthesis/images/masks.jpg"
+):
     if len(masks.shape) == 4:
       masks = masks.squeeze()
     if scores.shape[0] == 1:
@@ -27,4 +32,4 @@ def show_masks_on_image(raw_image, masks, scores):
       axes[i].title.set_text(f"Mask {i+1}, Score: {score.item():.3f}")
       axes[i].axis("off")
     plt.show()
-    plt.savefig("images/masks.jpg")
+    plt.savefig(path)
